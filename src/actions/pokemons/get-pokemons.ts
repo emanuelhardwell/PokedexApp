@@ -4,6 +4,7 @@ import type {
   PokeapiPaginated,
   PokeapiPokemon,
 } from '../../infrastructure/interfaces';
+import {PokemonMapper} from '../../infrastructure/mappers';
 
 // To fake a slow connection
 export const sleep = async () => {
@@ -25,9 +26,11 @@ export const getPokemons = async (
     });
 
     const pokemonsResult = await Promise.all(pokemonsPromises);
-    console.log(pokemonsResult[0]);
+    const pokemonMapper = pokemonsResult.map(pok =>
+      PokemonMapper.mapper(pok.data),
+    );
 
-    return [];
+    return pokemonMapper;
   } catch (error) {
     console.log(error);
     throw new Error('Error getPokemons');
