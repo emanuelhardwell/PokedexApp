@@ -13,7 +13,7 @@ export const sleep = async () => {
 
 export const getPokemons = async (
   page: number,
-  limit: number = 10,
+  limit: number = 20,
 ): Promise<Pokemon[]> => {
   //   await sleep();
 
