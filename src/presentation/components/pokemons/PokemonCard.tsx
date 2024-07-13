@@ -2,6 +2,7 @@ import {Image, StyleSheet, View} from 'react-native';
 import {Pokemon} from '../../../domain/entities/Pokemon';
 import {FC} from 'react';
 import {Card, Text} from 'react-native-paper';
+import {FadeInImage} from '../ui';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -21,7 +22,7 @@ export const PokemonCard: FC<PokemonCardProps> = ({pokemon}) => {
         />
       </View>
 
-      <Image style={styles.pokemonImage} source={{uri: pokemon.avatar}} />
+      <FadeInImage style={styles.pokemonImage} uri={pokemon.avatar} />
 
       <Text style={[styles.name, {marginTop: 35}]} variant="bodyMedium">
         {pokemon.types[0]}
