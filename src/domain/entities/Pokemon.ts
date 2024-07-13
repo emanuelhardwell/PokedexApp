@@ -5,5 +5,5 @@ export interface Pokemon {
   avatar: string;
   sprites: string[];
 
-  //   todo: Add prop color to apply theme
+  color: string;
 }

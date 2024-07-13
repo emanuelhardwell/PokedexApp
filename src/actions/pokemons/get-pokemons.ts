@@ -26,11 +26,11 @@ export const getPokemons = async (
     });
 
     const pokemonsResult = await Promise.all(pokemonsPromises);
-    const pokemonMapper = pokemonsResult.map(pok =>
+    const pokemonMapperPromises = pokemonsResult.map(pok =>
       PokemonMapper.mapper(pok.data),
     );
 
-    return pokemonMapper;
+    return await Promise.all(pokemonMapperPromises);
   } catch (error) {
     console.log(error);
     throw new Error('Error getPokemons');
