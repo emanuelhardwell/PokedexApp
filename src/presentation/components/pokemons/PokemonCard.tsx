@@ -1,33 +1,43 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {Pokemon} from '../../../domain/entities/Pokemon';
 import {FC} from 'react';
 import {Card, Text} from 'react-native-paper';
 import {FadeInImage} from '../ui';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {RootStackParams} from '../../navigator/StackNavigator';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
 }
 
 export const PokemonCard: FC<PokemonCardProps> = ({pokemon}) => {
+  const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
   return (
-    <Card style={[styles.cardContainer, {backgroundColor: pokemon.color}]}>
-      <Text style={styles.name} variant="bodyLarge" lineBreakMode="middle">
-        {pokemon.name + '\n#' + pokemon.id}
-      </Text>
+    <Pressable
+      onPress={() =>
+        navigation.navigate('PokemonScreen', {pokemonId: pokemon.id})
+      }
+      style={{flex: 1}}>
+      <Card style={[styles.cardContainer, {backgroundColor: pokemon.color}]}>
+        <Text style={styles.name} variant="bodyLarge" lineBreakMode="middle">
+          {pokemon.name + '\n#' + pokemon.id}
+        </Text>
 
-      <View style={styles.pokeballContainer}>
-        <Image
-          style={styles.pokeball}
-          source={require('../../../assets/pokeball-light.png')}
-        />
-      </View>
+        <View style={styles.pokeballContainer}>
+          <Image
+            style={styles.pokeball}
+            source={require('../../../assets/pokeball-light.png')}
+          />
+        </View>
 
-      <FadeInImage style={styles.pokemonImage} uri={pokemon.avatar} />
+        <FadeInImage style={styles.pokemonImage} uri={pokemon.avatar} />
 
-      <Text style={[styles.name, {marginTop: 35}]} variant="bodyMedium">
-        {pokemon.types[0]}
-      </Text>
-    </Card>
+        <Text style={[styles.name, {marginTop: 35}]} variant="bodyMedium">
+          {pokemon.types[0]}
+        </Text>
+      </Card>
+    </Pressable>
   );
 };
 
