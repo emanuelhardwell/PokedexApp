@@ -16,6 +16,19 @@ export class PokemonMapper {
       sprites: sprites,
       types: pokemon.types.map(type => type.type.name),
       color: color,
+
+      games: pokemon.game_indices.map(game => game.version.name),
+      abilities: pokemon.abilities.map(ability => ability.ability.name),
+      stats: pokemon.stats.map(stat => ({
+        name: stat.stat.name,
+        value: stat.base_stat,
+      })),
+      moves: pokemon.moves
+        .map(move => ({
+          name: move.move.name,
+          level: move.version_group_details[0]?.level_learned_at || 0,
+        }))
+        .sort((a, b) => a.level - b.level),
     };
   }
 
