@@ -1,7 +1,12 @@
 import {pokeApi} from '../../config/api/pokeApi';
 import {PokeapiPaginated} from '../../infrastructure/interfaces';
 
-export const getPokemonByNameOrId = async () => {
+interface PokemonIdAndName {
+  id: number;
+  name: string;
+}
+
+export const getPokemonByNameOrId = async (): Promise<PokemonIdAndName[]> => {
   const url = 'pokemon?limit=2000';
 
   try {
