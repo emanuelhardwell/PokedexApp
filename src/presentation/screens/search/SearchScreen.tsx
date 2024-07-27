@@ -4,8 +4,15 @@ import {PokemonCard} from '../../components/pokemons/PokemonCard';
 import {Pokemon} from '../../../domain/entities/Pokemon';
 import {ActivityIndicator, TextInput} from 'react-native-paper';
 import {globalTheme} from '../../../config/theme/global-theme';
+import {useQuery} from '@tanstack/react-query';
+import {getPokemonByNameOrId} from '../../../actions/pokemons';
 
 export const SearchScreen = () => {
+  const {isLoading, data: pokemonNameOrId = []} = useQuery({
+    queryKey: ['pokemon', 'all', 'name', 'id'],
+    queryFn: () => getPokemonByNameOrId(),
+  });
+
   const {top} = useSafeAreaInsets();
 
   return (
