@@ -10,6 +10,7 @@ import {
 } from '../../../actions/pokemons';
 import {useMemo, useState} from 'react';
 import {FullScreenLoader} from '../../components/ui';
+import {useDebouncedValue} from '../../hooks';
 
 export const SearchScreen = () => {
   const {isLoading, data: pokemonNameOrId = []} = useQuery({
@@ -18,22 +19,23 @@ export const SearchScreen = () => {
   });
 
   const [term, setTerm] = useState<string>('');
+  const debouncedValue = useDebouncedValue(term);
 
   const pokemonList = useMemo(() => {
-    if (!isNaN(Number(term))) {
+    if (!isNaN(Number(debouncedValue))) {
       const pokemon = pokemonNameOrId.find(
-        pokemon => pokemon.id === Number(term),
+        pokemon => pokemon.id === Number(debouncedValue),
       );
       return pokemon ? [pokemon] : [];
     }
 
-    if (term.length < 3) return [];
+    if (debouncedValue.length < 3) return [];
 
     const pokemon2 = pokemonNameOrId.filter(pokemon =>
-      pokemon.name.includes(term.toLocaleLowerCase()),
+      pokemon.name.includes(debouncedValue.toLocaleLowerCase()),
     );
     return pokemon2;
-  }, [term]);
+  }, [debouncedValue]);
 
   const {isLoading: isLoadingPokemons, data: pokemons = []} = useQuery({
     queryKey: ['pokemon', 'by', pokemonList],
